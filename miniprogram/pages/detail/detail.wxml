@@ -27,13 +27,13 @@
     </view>
 
     <view class="actions">
-      <button class="icon-btn {{applied ? 'icon-btn--applied' : 'icon-btn--apply'}}" bindtap="apply" aria-label="投递">
-        <image class="icon" src="/assets/icons/envelope.svg" mode="aspectFit"></image>
+      <button class="btn btn-ghost action" wx:if="{{job.sourceUrl}}" bindtap="copyLink">复制链接</button>
+      <button class="btn {{favorited ? 'btn-secondary' : 'btn-ghost'}} action" bindtap="toggleFavorite">
+        {{favorited ? '已收藏' : '收藏'}}
       </button>
-      <button class="icon-btn {{favorited ? 'icon-btn--fav' : ''}}" bindtap="toggleFavorite" aria-label="收藏">
-        <image class="icon" src="{{favorited ? '/assets/icons/heart-filled.svg' : '/assets/icons/heart-outline.svg'}}" mode="aspectFit"></image>
+      <button class="btn {{applied ? 'btn-success' : 'btn-primary'}} action" bindtap="apply">
+        {{applied ? '已投递' : '投递'}}
       </button>
-      <button class="btn btn-ghost copy-action" wx:if="{{job.sourceUrl}}" bindtap="copyLink">复制链接</button>
     </view>
 
     <view class="section card">
