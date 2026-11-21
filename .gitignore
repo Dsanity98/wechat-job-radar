@@ -4,3 +4,13 @@ miniprogram_npm/
 project.private.config.json
 *.log
 .DS_Store
+.venv-jobradar/
+.cache/
+tools/cloudbase-cli/node_modules/
+tools/cloudbase-cli-v1/node_modules/
+tools/cloudbase-home/
+tools/cloudbase-config/
+data/radar/
+data/jobs-import.json
+data/jobs-full.json
+data/jobs-full.jsonl

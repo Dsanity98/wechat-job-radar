@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "openapi": []
+  },
+  "triggers": [
+    {
+      "name": "radar-daily-sync",
+      "type": "timer",
+      "config": "0 40 7 * * * *"
+    }
+  ]
+}

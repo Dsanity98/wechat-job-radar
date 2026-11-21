@@ -1,0 +1,8 @@
+{
+  "name": "job-radar-cloudbase-cli",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": {
+    "@cloudbase/cli": "latest"
+  }
+}

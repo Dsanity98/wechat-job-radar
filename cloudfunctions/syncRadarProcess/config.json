@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "openapi": []
+  },
+  "triggers": [
+    {
+      "name": "radar-process",
+      "type": "timer",
+      "config": "0 40 7 * * * *"
+    }
+  ]
+}

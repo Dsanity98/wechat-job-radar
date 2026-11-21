@@ -58,6 +58,16 @@ wechat-job-radar/
 
 > 说明：这些是招聘官网公开可读的匿名接口，不绕过登录、验证码或访问限制；但官网改版可能使适配器失效，需要维护。当前 `syncjobs` 默认覆盖校招/实习，社招需另行配置门户或接口。
 
+## 用 GitHub Actions 定时更新 jobsearchradar 快照
+
+仓库已包含 [.github/workflows/sync-radar.yml](.github/workflows/sync-radar.yml)，每天 07:30（北京时间）下载最新 `jobsearchradar` 快照，并把新增、变更、下架岗位增量写入云数据库。
+
+首次启用：
+
+1. 在云开发控制台创建「环境 API Key」。
+2. 在 GitHub 仓库的 `Settings -> Secrets and variables -> Actions` 添加 `CLOUDBASE_API_KEY`，值为上一步生成的 Key。
+3. 推送仓库后，在 `Actions` 页手动运行一次 `Sync Job Radar`；首次只记录同步点，不写历史数据。
+
 ## 批量回填底库（可选）
 
 `jobsearchradar`（job_radar）是中国校招/实习/社招岗位的开放数据集，MIT 许可，无需 API key。它在 GitHub Actions 定时采集并发布快照，适合作为稳定底库。
