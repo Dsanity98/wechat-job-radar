@@ -1,22 +1,4 @@
 {
   "envId": "cloud1-d5gozm7zv06d1d98f",
-  "functionRoot": "cloudfunctions",
-  "functions": [
-    {
-      "name": "syncRadarFetch",
-      "timeout": 60,
-      "memorySize": 1024,
-      "runtime": "Nodejs20.19",
-      "handler": "index.main",
-      "installDependency": true
-    },
-    {
-      "name": "syncRadarProcess",
-      "timeout": 60,
-      "memorySize": 2048,
-      "runtime": "Nodejs20.19",
-      "handler": "index.main",
-      "installDependency": true
-    }
-  ]
+  "functionRoot": "cloudfunctions"
 }
