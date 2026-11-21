@@ -1,4 +1,0 @@
-<web-view wx:if="{{url}}" src="{{url}}"></web-view>
-<view class="empty-box" wx:else>
-  <view class="empty-title">未提供官网链接</view>
-</view>

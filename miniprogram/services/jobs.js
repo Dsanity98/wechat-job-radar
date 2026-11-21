@@ -45,6 +45,10 @@ const CITIES = [
   '其他'
 ]
 
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
 function normalize(job) {
   if (!job) return null
   let source = job.source
@@ -115,7 +119,7 @@ function buildCloudQuery(params) {
   if (params.city) conditions.push({ city: params.city })
   if (params.category) conditions.push({ category: params.category })
   if (params.keyword) {
-    const kw = params.keyword.trim()
+    const kw = escapeRegExp(params.keyword.trim())
     conditions.push(_.or([
       { title: db.RegExp({ regexp: kw, options: 'i' }) },
       { company: db.RegExp({ regexp: kw, options: 'i' }) }
@@ -180,11 +184,17 @@ function getJobsByIds(ids) {
     if (!config.cloudEnvId) return Promise.reject(new Error('CLOUD_NOT_CONFIGURED'))
     const db = wx.cloud.database()
     const _ = db.command
-    return db.collection(config.cloudCollection)
-      .where({ id: _.in(ids) })
-      .limit(100)
-      .get()
-      .then((res) => res.data.map(normalize))
+    // 小程序端单次 get 最多 20 条，按 20 一组分批拉取，避免收藏超过 20 条时被截断。
+    const chunks = []
+    for (let i = 0; i < ids.length; i += 20) {
+      chunks.push(ids.slice(i, i + 20))
+    }
+    return Promise.all(chunks.map((chunk) =>
+      db.collection(config.cloudCollection)
+        .where({ id: _.in(chunk) })
+        .limit(20)
+        .get()
+    )).then((results) => results.reduce((all, res) => all.concat(res.data), []).map(normalize))
   }
   return Promise.resolve(seedJobs.filter((job) => ids.indexOf(job.id) >= 0).map(normalize))
 }

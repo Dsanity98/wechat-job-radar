@@ -30,7 +30,6 @@
       <button class="btn {{favorited ? 'btn-secondary' : 'btn-primary'}} action" bindtap="toggleFavorite">
         {{favorited ? '已收藏' : '收藏'}}
       </button>
-      <button class="btn btn-primary action" wx:if="{{job.sourceUrl}}" bindtap="openOfficial">打开官网</button>
       <button class="btn btn-ghost action" wx:if="{{job.sourceUrl}}" bindtap="copyLink">复制链接</button>
     </view>
 

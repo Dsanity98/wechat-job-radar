@@ -4,6 +4,8 @@ miniprogram_npm/
 project.private.config.json
 *.log
 .DS_Store
+__pycache__/
+*.pyc
 .venv-jobradar/
 .cache/
 tools/cloudbase-cli/node_modules/

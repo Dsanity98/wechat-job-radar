@@ -69,17 +69,6 @@ Page({
     })
   },
 
-  openOfficial() {
-    const job = this.data.job
-    if (!job || !job.sourceUrl) {
-      wx.showToast({ title: '该岗位暂无官网链接', icon: 'none' })
-      return
-    }
-    wx.navigateTo({
-      url: '/pages/webview/webview?url=' + encodeURIComponent(job.sourceUrl)
-    })
-  },
-
   onRetry() {
     this.load()
   }
