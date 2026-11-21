@@ -101,11 +101,22 @@ def fingerprint(job):
 
 
 def normalize(row):
-    (
-        job_id, source_id, source_job_id, url, title, category, subcategory,
-        recruit_type, grad_year, batch, cities_raw, degree_min, department,
-        apply_end, publish_at, company,
-    ) = row
+    job_id = row["id"]
+    source_id = row["source_id"]
+    source_job_id = row["source_job_id"]
+    url = row["url"]
+    title = row["title"]
+    category = row["category"]
+    subcategory = row["subcategory"]
+    recruit_type = row["recruit_type"]
+    grad_year = row["grad_year"]
+    batch = row["batch"]
+    cities_raw = row["cities"]
+    degree_min = row["degree_min"]
+    department = row["department"]
+    apply_end = row["apply_end"]
+    publish_at = row["publish_at"]
+    company = row["name"]
     if not job_id or not title or not url:
         return None
     if OFFICIAL_POSITION_SOURCE_IDS is not None and source_id not in OFFICIAL_POSITION_SOURCE_IDS:
@@ -274,7 +285,7 @@ def main():
             SELECT j.id, j.source_id, j.source_job_id, j.url, j.title,
                    j.category, j.subcategory, j.recruit_type, j.grad_year, j.batch,
                    j.cities, j.degree_min, j.department, j.apply_end, j.publish_at,
-                   c.name
+                   c.name, j.closed_at
             FROM job j JOIN company c ON c.id = j.company_id
             WHERE j.id = ?
             """,

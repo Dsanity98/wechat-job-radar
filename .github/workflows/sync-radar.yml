@@ -8,6 +8,8 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -46,6 +48,7 @@ jobs:
 
       - name: Update snapshot and apply delta
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           CLOUDBASE_API_KEY: ${{ secrets.CLOUDBASE_API_KEY }}
           CLOUDBASE_ENV_ID: cloud1-d5gozm7zv06d1d98f
           CLOUDBASE_CLI_BIN: ${{ github.workspace }}/tools/cloudbase-cli/node_modules/.bin/tcb
@@ -53,5 +56,5 @@ jobs:
           CLOUDBASE_CONFIG: /tmp/cloudbase-config
           JOBRADAR_HOME: /tmp/jobradar_home
         run: |
-          python -m jobradar update
+          python -m jobradar update --jobs-only
           python tools/sync-radar-delta.py
