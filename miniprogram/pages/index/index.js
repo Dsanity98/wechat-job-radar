@@ -18,6 +18,8 @@ Page({
     categoryOptions: ['全部'].concat(jobsService.CATEGORIES),
     cityIndex: 0,
     categoryIndex: 0,
+    cityLabel: '城市',
+    categoryLabel: '岗位',
     jobs: [],
     total: 0,
     page: 1,
@@ -145,12 +147,20 @@ Page({
   },
 
   onCityChange(e) {
-    this.setData({ cityIndex: Number(e.detail.value) })
+    const cityIndex = Number(e.detail.value)
+    this.setData({
+      cityIndex,
+      cityLabel: cityIndex === 0 ? '城市' : jobsService.CITIES[cityIndex - 1]
+    })
     this.load(true)
   },
 
   onCategoryChange(e) {
-    this.setData({ categoryIndex: Number(e.detail.value) })
+    const categoryIndex = Number(e.detail.value)
+    this.setData({
+      categoryIndex,
+      categoryLabel: categoryIndex === 0 ? '岗位' : jobsService.CATEGORIES[categoryIndex - 1]
+    })
     this.load(true)
   },
 
@@ -161,7 +171,9 @@ Page({
       keyword: '',
       showSearchClear: false,
       cityIndex: 0,
-      categoryIndex: 0
+      categoryIndex: 0,
+      cityLabel: '城市',
+      categoryLabel: '岗位'
     })
     this.load(true)
   },

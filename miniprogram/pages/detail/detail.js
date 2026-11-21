@@ -70,18 +70,13 @@ Page({
     }
 
     applications.mark(job.id)
-    let favorited = favorites.has(job.id)
-    if (!favorited) {
-      favorites.toggle(job.id)
-      favorited = true
-    }
-    this.setData({ applied: true, favorited })
+    this.setData({ applied: true })
 
     if (job.sourceUrl) {
       wx.setClipboardData({
         data: job.sourceUrl,
         success() {
-          wx.showToast({ title: '已标记投递，链接已复制', icon: 'none' })
+          wx.showToast({ title: '已复制投递链接，请在浏览器打开', icon: 'none', duration: 2500 })
         }
       })
     } else {
