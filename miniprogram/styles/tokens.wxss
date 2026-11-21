@@ -1,0 +1,20 @@
+page {
+  --color-bg: #f5f7fa;
+  --color-surface: #ffffff;
+  --color-text: #17202c;
+  --color-muted: #596579;
+  --color-subtle: #8a94a3;
+  --color-border: #e7ebf0;
+  --color-primary: #2459d3;
+  --color-primary-soft: #eaf0ff;
+  --color-success: #157347;
+  --color-warning: #b45309;
+  --color-danger: #b42318;
+  --radius-card: 16rpx;
+  --radius-pill: 999rpx;
+  --space-xs: 8rpx;
+  --space-sm: 16rpx;
+  --space-md: 24rpx;
+  --space-lg: 32rpx;
+  --space-xl: 48rpx;
+}

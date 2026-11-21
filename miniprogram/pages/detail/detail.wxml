@@ -1,0 +1,91 @@
+<view class="page">
+  <block wx:if="{{job}}">
+    <view class="demo-banner" wx:if="{{job.isDemo}}">
+      <text>演示数据，非实时岗位</text>
+    </view>
+
+    <view class="hero card">
+      <view class="hero__top">
+        <view class="type type-{{job.type}}">{{job.typeLabel}}</view>
+        <view class="deadline {{job.expiring ? 'deadline--warn' : ''}}" wx:if="{{job.deadline}}">截止 {{job.deadlineText}}</view>
+      </view>
+      <view class="title">{{job.title}}</view>
+      <view class="company">{{job.company}}</view>
+      <view class="salary">{{job.salary}}</view>
+      <view class="meta">
+        <text class="meta-item">{{job.city}}</text>
+        <text class="sep" wx:if="{{job.city && job.degree}}">·</text>
+        <text class="meta-item" wx:if="{{job.degree}}">{{job.degree}}</text>
+        <text class="sep" wx:if="{{job.degree && job.experience}}">·</text>
+        <text class="meta-item" wx:if="{{job.experience}}">{{job.experience}}</text>
+        <text class="sep" wx:if="{{job.category && (job.city || job.degree || job.experience)}}">·</text>
+        <text class="meta-item" wx:if="{{job.category}}">{{job.category}}</text>
+      </view>
+      <view class="tags" wx:if="{{job.tags && job.tags.length}}">
+        <text class="tag" wx:for="{{job.tags}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+
+    <view class="actions">
+      <button class="btn {{favorited ? 'btn-secondary' : 'btn-primary'}} action" bindtap="toggleFavorite">
+        {{favorited ? '已收藏' : '收藏'}}
+      </button>
+      <button class="btn btn-primary action" wx:if="{{job.sourceUrl}}" bindtap="openOfficial">打开官网</button>
+      <button class="btn btn-ghost action" wx:if="{{job.sourceUrl}}" bindtap="copyLink">复制链接</button>
+    </view>
+
+    <view class="section card">
+      <view class="section__title">岗位职责</view>
+      <text class="body" user-select>{{job.description}}</text>
+    </view>
+
+    <view class="section card">
+      <view class="section__title">任职要求</view>
+      <text class="body" user-select>{{job.requirements}}</text>
+    </view>
+
+    <view class="section card">
+      <view class="section__title">岗位信息</view>
+      <view class="info-row" wx:if="{{job.city}}">
+        <text class="info-label">工作城市</text>
+        <text class="info-value">{{job.city}}</text>
+      </view>
+      <view class="info-row" wx:if="{{job.degree}}">
+        <text class="info-label">学历要求</text>
+        <text class="info-value">{{job.degree}}</text>
+      </view>
+      <view class="info-row" wx:if="{{job.experience}}">
+        <text class="info-label">经验要求</text>
+        <text class="info-value">{{job.experience}}</text>
+      </view>
+      <view class="info-row" wx:if="{{job.deadline}}">
+        <text class="info-label">截止日期</text>
+        <text class="info-value">{{job.deadlineText}}</text>
+      </view>
+      <view class="info-row" wx:if="{{job.source}}">
+        <text class="info-label">信息来源</text>
+        <text class="info-value">{{job.source}}</text>
+      </view>
+      <view class="info-row" wx:if="{{job.publishAt}}">
+        <text class="info-label">发布时间</text>
+        <text class="info-value">{{job.publishText}}</text>
+      </view>
+      <view class="info-row" wx:if="{{job.sourceUrl}}">
+        <text class="info-label">官网链接</text>
+        <text class="info-value link">{{job.sourceUrl}}</text>
+      </view>
+      <view class="info-row" wx:else>
+        <text class="info-label">官网链接</text>
+        <text class="info-value subtle">暂无</text>
+      </view>
+    </view>
+  </block>
+
+  <view class="empty-box" wx:elif="{{!loading && error}}">
+    <view class="empty-title">无法查看岗位</view>
+    <view class="empty-desc">{{error}}</view>
+    <button class="btn btn-secondary empty-btn" bindtap="onRetry">重试</button>
+  </view>
+
+  <view class="loading muted" wx:if="{{loading}}">正在加载…</view>
+</view>

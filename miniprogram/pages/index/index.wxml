@@ -1,0 +1,74 @@
+<view class="page">
+  <view class="demo-banner" wx:if="{{isDemo}}">
+    <text>当前为演示数据；接入云环境并导入数据后展示真实岗位</text>
+  </view>
+
+  <view class="head">
+    <view class="brand">
+      <text class="brand__title">职聚</text>
+      <text class="brand__sub">校招 · 实习 · 社招</text>
+    </view>
+    <view class="search-box">
+      <view class="search-icon"></view>
+      <input
+        class="search-input"
+        placeholder="搜索岗位 / 公司 / 关键词"
+        placeholder-class="search-placeholder"
+        value="{{keyword}}"
+        bindinput="onSearchInput"
+        bindconfirm="onSearchConfirm"
+        confirm-type="search"
+      />
+      <view class="search-clear" wx:if="{{showSearchClear}}" bindtap="onSearchClear">×</view>
+    </view>
+  </view>
+
+  <scroll-view class="tabs" scroll-x="{{true}}">
+    <view
+      class="tab {{activeType === item.key ? 'tab--active' : ''}}"
+      wx:for="{{tabs}}"
+      wx:key="key"
+      data-key="{{item.key}}"
+      bindtap="onTypeTap"
+    >{{item.label}}</view>
+  </scroll-view>
+
+  <view class="filters">
+    <picker class="filter" mode="selector" range="{{cityOptions}}" value="{{cityIndex}}" bindchange="onCityChange">
+      <view class="filter__inner">
+        <text class="filter__value">{{cityOptions[cityIndex]}}</text>
+        <view class="filter__arrow"></view>
+      </view>
+    </picker>
+    <picker class="filter" mode="selector" range="{{categoryOptions}}" value="{{categoryIndex}}" bindchange="onCategoryChange">
+      <view class="filter__inner">
+        <text class="filter__value">{{categoryOptions[categoryIndex]}}</text>
+        <view class="filter__arrow"></view>
+      </view>
+    </picker>
+    <view class="filter__count muted" wx:if="{{total > 0}}">共 {{total}} 个岗位</view>
+    <view class="filter__reset" bindtap="resetFilters" wx:if="{{activeType !== 'all' || keyword || cityIndex || categoryIndex}}">重置</view>
+  </view>
+
+  <view class="list">
+    <block wx:if="{{jobs.length}}">
+      <job-card wx:for="{{jobs}}" wx:key="id" job="{{item}}" bind:jobtap="onJobTap" />
+    </block>
+
+    <view class="empty-box" wx:elif="{{!loading && !error}}">
+      <view class="empty-title">没有找到匹配岗位</view>
+      <view class="empty-desc">换个关键词或筛选条件试试</view>
+      <button class="btn btn-secondary empty-btn" bindtap="resetFilters">重置筛选</button>
+    </view>
+
+    <view class="empty-box" wx:elif="{{error}}">
+      <view class="empty-title">加载失败</view>
+      <view class="empty-desc">{{error}}</view>
+      <button class="btn btn-secondary empty-btn" bindtap="onRetry">重试</button>
+    </view>
+  </view>
+
+  <view class="load-status muted" wx:if="{{loading}}">正在加载…</view>
+  <view class="load-status muted" wx:if="{{loadingMore}}">正在加载更多…</view>
+  <view class="load-status muted" wx:if="{{!hasMore && jobs.length}}">已经到底了</view>
+</view>

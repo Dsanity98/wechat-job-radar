@@ -1,0 +1,27 @@
+<view class="job-card" hover-class="job-card--hover" bindtap="onTap">
+  <view class="top">
+    <text class="title ellipsis">{{job.title}}</text>
+    <text class="salary">{{job.salary}}</text>
+  </view>
+
+  <view class="company ellipsis">{{job.company}}</view>
+
+  <view class="meta">
+    <text class="meta-item">{{job.city}}</text>
+    <text class="sep" wx:if="{{job.city && job.degree}}">·</text>
+    <text class="meta-item" wx:if="{{job.degree}}">{{job.degree}}</text>
+    <text class="sep" wx:if="{{job.degree && job.experience}}">·</text>
+    <text class="meta-item" wx:if="{{job.experience}}">{{job.experience}}</text>
+  </view>
+
+  <view class="tags" wx:if="{{job.tags && job.tags.length}}">
+    <text class="tag" wx:for="{{job.tags}}" wx:key="*this">{{item}}</text>
+  </view>
+
+  <view class="foot">
+    <view class="type type-{{job.type}}">{{job.typeLabel}}</view>
+    <view class="deadline {{job.expiring ? 'deadline--warn' : ''}}" wx:if="{{job.deadline}}">截止 {{job.deadlineText}}</view>
+    <view class="publish">{{job.publishText}}</view>
+    <view class="demo" wx:if="{{job.isDemo}}">演示</view>
+  </view>
+</view>
