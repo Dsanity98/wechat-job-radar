@@ -27,7 +27,10 @@
     </view>
 
     <view class="actions">
-      <button class="btn {{favorited ? 'btn-secondary' : 'btn-primary'}} action" bindtap="toggleFavorite">
+      <button class="btn {{applied ? 'btn-success' : 'btn-primary'}} action" bindtap="apply">
+        {{applied ? '已投递' : '投递'}}
+      </button>
+      <button class="btn {{favorited ? 'btn-secondary' : 'btn-ghost'}} action" bindtap="toggleFavorite">
         {{favorited ? '已收藏' : '收藏'}}
       </button>
       <button class="btn btn-ghost action" wx:if="{{job.sourceUrl}}" bindtap="copyLink">复制链接</button>
@@ -64,6 +67,10 @@
       <view class="info-row" wx:if="{{job.source}}">
         <text class="info-label">信息来源</text>
         <text class="info-value">{{job.source}}</text>
+      </view>
+      <view class="info-row" wx:if="{{applied}}">
+        <text class="info-label">投递状态</text>
+        <text class="info-value applied">已投递</text>
       </view>
       <view class="info-row" wx:if="{{job.publishAt}}">
         <text class="info-label">发布时间</text>

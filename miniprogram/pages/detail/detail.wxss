@@ -155,6 +155,11 @@
   color: #2459d3;
 }
 
+.info-value.applied {
+  color: #157347;
+  font-weight: 600;
+}
+
 .empty-btn {
   margin-top: 24rpx;
   height: 72rpx;

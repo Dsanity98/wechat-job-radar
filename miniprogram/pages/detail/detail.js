@@ -1,5 +1,6 @@
 const jobsService = require('../../services/jobs')
 const favorites = require('../../services/favorites')
+const applications = require('../../services/applications')
 
 Page({
   data: {
@@ -7,7 +8,8 @@ Page({
     job: null,
     loading: true,
     error: '',
-    favorited: false
+    favorited: false,
+    applied: false
   },
 
   onLoad(options) {
@@ -26,7 +28,8 @@ Page({
         this.setData({
           job,
           loading: false,
-          favorited: favorites.has(job.id)
+          favorited: favorites.has(job.id),
+          applied: applications.has(job.id)
         })
         if (job.title) {
           wx.setNavigationBarTitle({ title: job.title })
@@ -53,6 +56,37 @@ Page({
       title: favorited ? '已收藏' : '已取消收藏',
       icon: 'none'
     })
+  },
+
+  apply() {
+    const job = this.data.job
+    if (!job) return
+
+    if (this.data.applied) {
+      applications.unmark(job.id)
+      this.setData({ applied: false })
+      wx.showToast({ title: '已取消投递标记', icon: 'none' })
+      return
+    }
+
+    applications.mark(job.id)
+    let favorited = favorites.has(job.id)
+    if (!favorited) {
+      favorites.toggle(job.id)
+      favorited = true
+    }
+    this.setData({ applied: true, favorited })
+
+    if (job.sourceUrl) {
+      wx.setClipboardData({
+        data: job.sourceUrl,
+        success() {
+          wx.showToast({ title: '已标记投递，链接已复制', icon: 'none' })
+        }
+      })
+    } else {
+      wx.showToast({ title: '已标记投递', icon: 'none' })
+    }
   },
 
   copyLink() {

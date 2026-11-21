@@ -75,6 +75,11 @@ button.btn::after {
   color: var(--color-primary);
 }
 
+.btn-success {
+  background: var(--color-success);
+  color: #ffffff;
+}
+
 .btn-ghost {
   background: #ffffff;
   color: var(--color-text);
