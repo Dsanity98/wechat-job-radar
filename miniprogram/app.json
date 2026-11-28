@@ -1,11 +1,12 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/library/library",
     "pages/detail/detail",
-    "pages/favorites/favorites"
+    "pages/edit/edit"
   ],
   "window": {
-    "navigationBarTitleText": "职聚",
+    "navigationBarTitleText": "求职进度",
     "navigationBarBackgroundColor": "#ffffff",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#f5f7fa",
@@ -19,11 +20,11 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "岗位"
+        "text": "我的求职"
       },
       {
-        "pagePath": "pages/favorites/favorites",
-        "text": "收藏"
+        "pagePath": "pages/library/library",
+        "text": "参考库"
       }
     ]
   },

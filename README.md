@@ -1,6 +1,6 @@
-# 职聚 · 校招/实习/社招岗位聚合小程序
+# 求职进度 · 个人求职进度管理小程序
 
-原生微信小程序，聚合校招、实习、社招岗位，支持搜索、城市/方向筛选、岗位详情与本地收藏。数据层支持「内置演示数据」和「微信云开发数据库」两种模式。
+原生微信小程序，帮助求职者管理自己的求职进度：记录岗位、投递状态、截止提醒与备注，可从岗位参考库检索并一键导入。岗位数据以用户自己添加为主，参考库仅作为检索来源。
 
 ## 目录
 
@@ -9,13 +9,17 @@ wechat-job-radar/
   project.config.json
   miniprogram/          # 小程序源码
     pages/
-    components/
-    services/
+      index/            # 我的求职（进度面板）
+      edit/             # 添加 / 编辑岗位
+      detail/           # 岗位详情与状态管理
+      library/          # 岗位参考库
+    components/         # job-card
+    services/           # myjobs / jobs
     data/
     config/
   cloudfunctions/       # 云函数
     importJobs/
-    syncjobs/           # 每天定时拉取真实岗位
+    syncjobs/           # 参考库数据定时更新
   docs/
 ```
 
@@ -25,17 +29,12 @@ wechat-job-radar/
 2. 当前 `miniprogram/config/index.js` 已配置为 `cloud` 模式，导入后连接云数据库；如需先看演示数据，把 `dataSource` 临时改为 `demo` 即可，无需后端。
 3. `project.config.json` 的 `appid` 已填写，正式联调云开发前请确认它就是你自己的小程序 AppID。
 
-## 收藏 · 投递 · 复制链接
+## 添加岗位 · 投递状态 · 备注
 
-岗位详情页提供「投递」「收藏」「复制链接」三个操作：
-
-- 「投递」一键标记为已投递，并把投递链接复制到剪贴板，同时自动加入收藏；再点一次可撤销投递标记。
-- 「收藏」把岗位保存到本地收藏页。
-- 「复制链接」把岗位官网地址写入剪贴板，可在浏览器粘贴打开。
-
-> 微信小程序内直接打开外部网页需要目标域名加入「业务域名」白名单；岗位投递链接分布在众多公司域名，无法逐个加入，因此「投递」采用「复制链接 + 浏览器打开」的可靠方式。
-
-演示数据中的官网链接指向各公司的官方招聘入口（如腾讯 `join.qq.com`、字节 `jobs.bytedance.com/campus`、华为 `career.huawei.com` 等），不是虚构岗位的详情页，请以官网实际在招信息为准。
+- 首页「我的求职」集中展示求职进度，按待投递 / 已投递 / 面试中 / Offer / 已结束分类统计。
+- 点击右下角「＋」手动添加岗位，或到「参考库」搜索后一键导入。
+- 岗位详情可切换投递状态、填写备注、复制投递链接、编辑或删除。
+- 截止日期临近时自动高亮提醒。
 
 ## 接入微信云开发
 
@@ -48,9 +47,9 @@ wechat-job-radar/
 5. 在开发者工具中右键 `cloudfunctions/syncjobs` 和 `cloudfunctions/importJobs`，分别选择「上传并部署：云端安装依赖」。
 6. 部署后确认 `syncjobs` 的超时时间不小于 60 秒。若手动运行提示 `statusCode 433`、`Invoking task timed out`，到云开发控制台把 `syncjobs` 的「超时时间」改为 60 秒后再重跑。
 
-## 每天自动拉取真实岗位（推荐）
+## 参考库数据同步（后台自动）
 
-`syncjobs` 云函数已配置每天 08:00 的定时触发器，从官方招聘门户的公开匿名 JSON 接口拉取真实岗位并写入 `jobs` 集合：
+`syncjobs` 云函数已配置每天 08:00 的定时触发器，从公开招聘门户的匿名 JSON 接口拉取岗位并写入 `jobs` 集合，作为参考库的数据来源：
 
 - 已接入：字节跳动（`jobs.bytedance.com/campus`）、蔚来（`nio.jobs.feishu.cn/campus`），覆盖校招与实习。
 - 每条岗位保存 `sourceUrl` 具体投递链接，例如 `https://jobs.bytedance.com/campus/position/{id}/detail`。

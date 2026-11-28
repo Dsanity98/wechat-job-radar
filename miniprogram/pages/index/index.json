@@ -1,8 +1,5 @@
 {
-  "navigationBarTitleText": "岗位",
+  "navigationBarTitleText": "我的求职",
   "enablePullDownRefresh": true,
-  "backgroundTextStyle": "dark",
-  "usingComponents": {
-    "job-card": "/components/job-card/job-card"
-  }
+  "backgroundTextStyle": "dark"
 }

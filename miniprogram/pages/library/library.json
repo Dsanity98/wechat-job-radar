@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "参考库",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+    "job-card": "/components/job-card/job-card"
+  }
+}

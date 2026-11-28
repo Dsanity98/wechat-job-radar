@@ -1,104 +1,88 @@
-const jobsService = require('../../services/jobs')
-const favorites = require('../../services/favorites')
-const applications = require('../../services/applications')
+const myjobs = require('../../services/myjobs')
+const { formatDate, daysLeft } = require('../../utils/format')
+
+const TYPE_MAP = { campus: '校招', intern: '实习', social: '社招' }
+
+function daysHint(deadline) {
+  if (!deadline) return ''
+  const left = daysLeft(deadline)
+  if (left === null) return ''
+  if (left < 0) return '已截止'
+  if (left === 0) return '今天截止'
+  return '还剩 ' + left + ' 天'
+}
 
 Page({
   data: {
     id: '',
     job: null,
-    loading: true,
-    error: '',
-    favorited: false,
-    applied: false
+    statusList: myjobs.STATUS
   },
 
   onLoad(options) {
     this.setData({ id: options.id || '' })
+  },
+
+  onShow() {
     this.load()
   },
 
   load() {
-    this.setData({ loading: true, error: '' })
-    jobsService.getJobById(this.data.id)
-      .then((job) => {
-        if (!job) {
-          this.setData({ loading: false, error: '岗位不存在或已下架' })
-          return
-        }
-        this.setData({
-          job,
-          loading: false,
-          favorited: favorites.has(job.id),
-          applied: applications.has(job.id)
-        })
-        if (job.title) {
-          wx.setNavigationBarTitle({ title: job.title })
-        }
-      })
-      .catch((err) => {
-        this.setData({ loading: false, error: this.describeError(err) })
-      })
-  },
-
-  describeError(err) {
-    if (err && err.message === 'CLOUD_NOT_CONFIGURED') {
-      return '尚未配置云环境，请在 miniprogram/config/index.js 填写云环境 ID'
-    }
-    return '岗位加载失败，请稍后重试'
-  },
-
-  toggleFavorite() {
-    const job = this.data.job
-    if (!job) return
-    const favorited = favorites.toggle(job.id)
-    this.setData({ favorited })
-    wx.showToast({
-      title: favorited ? '已收藏' : '已取消收藏',
-      icon: 'none'
-    })
-  },
-
-  apply() {
-    const job = this.data.job
-    if (!job) return
-
-    if (this.data.applied) {
-      applications.unmark(job.id)
-      this.setData({ applied: false })
-      wx.showToast({ title: '已取消投递标记', icon: 'none' })
+    const job = myjobs.get(this.data.id)
+    if (!job) {
+      this.setData({ job: null })
       return
     }
-
-    applications.mark(job.id)
-    this.setData({ applied: true })
-
-    if (job.sourceUrl) {
-      wx.setClipboardData({
-        data: job.sourceUrl,
-        success() {
-          wx.showToast({ title: '已复制投递链接，请在浏览器打开', icon: 'none', duration: 2500 })
-        }
-      })
-    } else {
-      wx.showToast({ title: '已标记投递', icon: 'none' })
+    const left = daysLeft(job.deadline)
+    const decorated = Object.assign({}, job, {
+      statusLabel: myjobs.STATUS_MAP[job.status] || '待投递',
+      typeLabel: TYPE_MAP[job.type] || '',
+      deadlineText: formatDate(job.deadline),
+      daysHint: daysHint(job.deadline),
+      deadlineWarn: left !== null && left <= 7
+    })
+    this.setData({ job: decorated })
+    if (job.title) {
+      wx.setNavigationBarTitle({ title: job.title })
     }
+  },
+
+  setStatus(e) {
+    const status = e.currentTarget.dataset.status
+    if (!status || status === this.data.job.status) return
+    myjobs.update(this.data.id, { status })
+    this.load()
   },
 
   copyLink() {
     const job = this.data.job
-    if (!job || !job.sourceUrl) {
-      wx.showToast({ title: '该岗位暂无官网链接', icon: 'none' })
+    if (!job || !job.applyUrl) {
+      wx.showToast({ title: '暂无投递链接', icon: 'none' })
       return
     }
     wx.setClipboardData({
-      data: job.sourceUrl,
+      data: job.applyUrl,
       success() {
-        wx.showToast({ title: '链接已复制', icon: 'success' })
+        wx.showToast({ title: '已复制投递链接', icon: 'none' })
       }
     })
   },
 
-  onRetry() {
-    this.load()
+  edit() {
+    wx.navigateTo({ url: '/pages/edit/edit?id=' + this.data.id })
+  },
+
+  remove() {
+    wx.showModal({
+      title: '删除岗位',
+      content: '删除后不可恢复，确定删除吗？',
+      confirmColor: '#b42318',
+      success: (res) => {
+        if (res.confirm) {
+          myjobs.remove(this.data.id)
+          wx.navigateBack()
+        }
+      }
+    })
   }
 })

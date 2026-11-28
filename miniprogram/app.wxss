@@ -80,6 +80,11 @@ button.btn::after {
   color: #ffffff;
 }
 
+.btn-danger {
+  background: var(--color-danger);
+  color: #ffffff;
+}
+
 .btn-ghost {
   background: #ffffff;
   color: var(--color-text);
@@ -105,4 +110,37 @@ button.btn::after {
   font-size: 26rpx;
   color: var(--color-muted);
   line-height: 1.6;
+}
+
+.badge {
+  font-size: 22rpx;
+  font-weight: 600;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+  flex-shrink: 0;
+}
+
+.badge-pending {
+  color: #2459d3;
+  background: #eaf0ff;
+}
+
+.badge-applied {
+  color: #157347;
+  background: #e7f5ee;
+}
+
+.badge-interview {
+  color: #b45309;
+  background: #fdf1e3;
+}
+
+.badge-offer {
+  color: #7c3aed;
+  background: #f3e8ff;
+}
+
+.badge-closed {
+  color: #596579;
+  background: #eef1f5;
 }
