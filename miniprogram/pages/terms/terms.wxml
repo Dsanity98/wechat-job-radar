@@ -1,0 +1,31 @@
+<view class="page">
+  <view class="doc card">
+    <view class="title">用户协议与免责声明</view>
+    <view class="updated">更新日期：2026 年 11 月 28 日</view>
+
+    <view class="section">
+      <view class="h">一、服务说明</view>
+      <text class="p">本小程序是一款个人求职进度管理工具，帮助你记录和管理自己的岗位、投递状态、截止日期与备注，不提供招聘信息发布、人才匹配或中介服务。</text>
+    </view>
+
+    <view class="section">
+      <view class="h">二、使用规范</view>
+      <text class="p">请自行核实岗位信息的真实性、有效性与合法性。参考库展示的岗位信息来自公开渠道，仅供参考，具体以招聘方官网为准。投递行为均发生在招聘方官网，本小程序不代为投递，也不承诺任何录用结果。</text>
+    </view>
+
+    <view class="section">
+      <view class="h">三、免责声明</view>
+      <text class="p">参考库岗位信息可能因来源更新不及时而存在偏差，本小程序不对其准确性、完整性与时效性作出保证。因参考库信息产生的损失或纠纷，由用户自行承担。本小程序保留调整、暂停或终止服务及更新本协议的权利。</text>
+    </view>
+
+    <view class="section">
+      <view class="h">四、知识产权</view>
+      <text class="p">参考库岗位信息的版权归原招聘方或信息发布方所有，本小程序仅作个人求职记录用途。</text>
+    </view>
+
+    <view class="section">
+      <view class="h">五、协议生效</view>
+      <text class="p">使用本小程序即视为你已阅读并同意本协议。如不同意，请停止使用。</text>
+    </view>
+  </view>
+</view>

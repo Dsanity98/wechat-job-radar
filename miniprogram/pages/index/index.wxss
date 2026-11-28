@@ -177,6 +177,24 @@
   padding: 0 36rpx;
 }
 
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  padding: 40rpx 24rpx 32rpx;
+  font-size: 24rpx;
+  color: #8a94a3;
+}
+
+.footer__link {
+  color: #8a94a3;
+}
+
+.footer__sep {
+  color: #c8cfd8;
+}
+
 .fab {
   position: fixed;
   right: 32rpx;

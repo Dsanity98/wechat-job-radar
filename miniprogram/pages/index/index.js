@@ -83,5 +83,13 @@ Page({
 
   goLibrary() {
     wx.switchTab({ url: '/pages/library/library' })
+  },
+
+  goPrivacy() {
+    wx.navigateTo({ url: '/pages/privacy/privacy' })
+  },
+
+  goTerms() {
+    wx.navigateTo({ url: '/pages/terms/terms' })
   }
 })

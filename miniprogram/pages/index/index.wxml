@@ -60,5 +60,11 @@
     </view>
   </view>
 
+  <view class="footer">
+    <text class="footer__link" bindtap="goPrivacy">隐私政策</text>
+    <text class="footer__sep">·</text>
+    <text class="footer__link" bindtap="goTerms">用户协议与免责声明</text>
+  </view>
+
   <view class="fab" bindtap="addJob">＋</view>
 </view>

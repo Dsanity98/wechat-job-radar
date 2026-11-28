@@ -10,7 +10,7 @@ App({
       if (wx.cloud) {
         wx.cloud.init({
           env: config.cloudEnvId,
-          traceUser: true
+          traceUser: false
         })
       }
     }
